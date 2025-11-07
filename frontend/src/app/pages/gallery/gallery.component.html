@@ -1,0 +1,19 @@
+<section id="gallery-section" class="gallery-section">
+    <h2 class="section-title" data-aos="fade-down">圖片精選</h2>
+    <div class="gallery-grid">
+        <div class="gallery-item" data-aos="fade-up" data-aos-delay="100" *ngFor="let image of galleryImages; let i = index" (click)="openLightbox(i)">
+            <img [src]="image.src" [alt]="image.caption">
+            <div class="caption">{{ image.caption }}</div>
+        </div>
+    </div>
+
+    <div id="lightbox" class="lightbox" *ngIf="isLightboxVisible" (click)="onLightboxBackdropClick($event)">
+        <div class="lightbox-content">
+            <button class="lightbox-close" (click)="closeLightbox()">&times;</button>
+            <div class="lightbox-caption">{{ galleryImages[currentIndex].caption }}</div>
+            <img [src]="galleryImages[currentIndex].src" [alt]="galleryImages[currentIndex].caption">
+        </div>
+        <button class="lightbox-prev" (click)="prevImage($event)">&#10094;</button>
+        <button class="lightbox-next" (click)="nextImage($event)">&#10095;</button>
+    </div>
+</section>

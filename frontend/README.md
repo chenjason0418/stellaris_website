@@ -1,0 +1,653 @@
+# 🚀 Stellaris 宇宙探索電商平台 - 前端應用
+
+Stellaris 是一個融合太空探索主題與現代電商功能的全端 Web 應用程式。前端使用 **Angular 19** 構建，提供沉浸式的宇宙探索體驗、完整的電商購物功能，以及強大的用戶管理系統。
+
+## ✨ 專案亮點
+
+### 🎨 視覺體驗
+- **沉浸式宇宙主題**：深空背景、星空動畫、科幻 UI 設計
+- **響應式設計**：完美適配桌面、平板、手機等各種設備
+- **流暢動畫**：使用 AOS 和 Animate.css 打造順滑的頁面動畫
+- **現代化界面**：Bootstrap 5 + 自定義 CSS，美觀且功能完備
+
+### 🛒 電商功能
+- **商品展示系統**：多層次商品分類與展示
+- **智能購物車**：即時商品管理與價格計算
+- **訂單管理**：完整的訂單流程與狀態追蹤
+- **用戶個人化**：個人訂單歷史與狀態查詢
+
+### 👥 用戶管理
+- **多層級權限**：訪客、註冊用戶、管理員三級權限控制
+- **安全認證**：JWT Token 認證 + 密碼加密
+- **用戶中心**：個人資料管理、訂單查詢、狀態監控
+- **管理員儀表板**：用戶管理、訂單管理、系統統計
+
+### 🔧 技術特色
+- **服務端渲染 (SSR)**：優化 SEO 和首屏載入速度
+- **模組化架構**：清晰的組件、服務、頁面分層結構
+- **TypeScript 支持**：完整的類型安全與開發體驗
+- **RxJS 響應式編程**：高效的異步數據處理
+
+## 🎯 核心功能模組
+
+### 🏠 首頁體驗 (Home)
+- **動態輪播橫幅**：展示精選宇宙影像與內容
+- **探索導航**：快速訪問各個功能模組
+- **內容預覽**：圖片畫廊、任務介紹、學習資源概覽
+- **互動動畫**：滾動觸發的視覺效果
+
+### 🌌 宇宙探索 (Explore)
+- **太空知識**：豐富的宇宙科學內容
+- **互動展示**：沉浸式的太空探索體驗
+- **教育內容**：適合各年齡層的宇宙知識
+
+### 🖼️ 圖片畫廊 (Gallery)  
+- **高品質太空影像**：NASA 等來源的專業太空攝影
+- **分類瀏覽**：按主題、類型組織的圖片展示
+- **詳細資訊**：每張圖片的科學背景說明
+
+### 🚀 太空任務 (Missions)
+- **歷史任務**：重要太空探索任務介紹
+- **進行中任務**：當前太空探索項目
+- **未來計畫**：即將進行的太空任務
+
+### 📚 學習中心 (Learn)
+- **互動教程**：分步驟的宇宙知識學習
+- **科學資料**：準確的天文學資訊
+- **多媒體內容**：影片、圖表、動畫說明
+
+### 🛒 太空商店 (Shop)
+- **商品展示**：太空主題商品目錄
+- **購物車系統**：即時商品管理與計算
+- **結帳流程**：安全的訂單處理流程
+- **庫存管理**：即時庫存狀態顯示
+
+### 📞 聯絡我們 (Contact)
+- **多元聯絡方式**：電話、郵件、地址資訊
+- **社交媒體**：官方社群平台連結
+- **客服支援**：用戶問題與建議回饋
+
+### 👥 用戶管理系統
+#### 🔐 認證功能
+- **註冊登入**：安全的用戶認證系統
+- **密碼加密**：使用 crypto-js 進行密碼保護
+- **JWT 認證**：無狀態的 Token 認證機制
+- **自動登出**：登出後強制跳轉首頁
+
+#### 👤 個人中心
+- **我的訂單**：彈窗式訂單查詢與管理
+- **訂單狀態**：即時訂單狀態更新
+- **個人資料**：用戶資訊管理
+- **權限控制**：基於角色的功能存取
+
+#### �️ 管理員功能
+- **用戶管理**：
+  - 完整用戶列表顯示
+  - 新增用戶（含密碼、角色、狀態設定）
+  - 用戶狀態管理（活躍/非活躍）
+  - 角色管理（一般用戶/管理員）
+  - 統計儀表板（總用戶數、管理員數、活躍用戶等）
+  - 密碼強度檢查
+- **訂單管理**：
+  - 訂單列表查看
+  - 訂單狀態更新
+  - 訂單詳情管理
+
+## 🛠 技術架構
+
+### 🎯 核心技術棧
+| 技術 | 版本 | 用途 |
+|------|------|------|
+| **Angular** | 19.1.0 | 主要前端框架 - 提供完整的 SPA 解決方案 |
+| **TypeScript** | 5.7.2 | 開發語言 - 提供類型安全與現代 JS 特性 |
+| **RxJS** | 7.8.0 | 響應式編程 - 處理異步數據流與事件 |
+| **Angular SSR** | 19.1.7 | 服務端渲染 - 優化 SEO 與首屏載入 |
+
+### 🎨 UI 與視覺
+| 技術 | 版本 | 用途 |
+|------|------|------|
+| **Bootstrap** | 5.3.6 | CSS 框架 - 響應式佈局與 UI 組件 |
+| **Animate.css** | 4.1.1 | 動畫庫 - 預設動畫效果 |
+| **ngx-slick-carousel** | 19.0.0 | 輪播組件 - Angular 輪播解決方案 |
+| **slick-carousel** | 1.8.1 | 輪播核心 - 高性能輪播功能 |
+
+### 🔐 安全與工具
+| 技術 | 版本 | 用途 |
+|------|------|------|
+| **crypto-js** | 4.2.0 | 加密庫 - 密碼加密與安全處理 |
+| **Express.js** | 4.18.2 | 服務端 - SSR 運行環境 |
+| **JWT** | - | 認證機制 - 無狀態用戶認證 |
+
+### 🧪 開發與測試
+| 技術 | 版本 | 用途 |
+|------|------|------|
+| **Angular CLI** | 19.1.7 | 開發工具 - 項目建構與開發服務 |
+| **Jasmine** | 5.5.0 | 測試框架 - 單元測試 |
+| **Karma** | 6.4.0 | 測試運行器 - 瀏覽器測試環境 |
+
+## 📁 專案架構
+
+```
+frontend/
+├── 📂 src/                          # 源代碼目錄
+│   ├── 📂 app/                      # Angular 應用主目錄
+│   │   ├── 📂 components/           # 可重用 UI 組件
+│   │   │   ├── 🔐 login/           # 用戶登入組件
+│   │   │   ├── 📝 register/        # 用戶註冊組件  
+│   │   │   ├── 👥 user-list/       # 用戶管理組件（管理員）
+│   │   │   ├── 📋 user-orders/     # 用戶訂單查詢組件
+│   │   │   └── 📊 order-management/ # 訂單管理組件（管理員）
+│   │   ├── 📂 pages/               # 頁面組件
+│   │   │   ├── 🏠 home/           # 首頁
+│   │   │   ├── 🌌 explore/        # 宇宙探索
+│   │   │   ├── 🖼️ gallery/        # 圖片畫廊
+│   │   │   ├── 🚀 missions/       # 太空任務
+│   │   │   ├── 📚 learn/          # 學習中心
+│   │   │   ├── 🛒 shop/           # 太空商店
+│   │   │   └── 📞 contact/        # 聯絡我們
+│   │   ├── 📂 services/            # 業務邏輯服務層
+│   │   │   ├── 🔐 auth.service.ts     # 統一認證服務（核心）
+│   │   │   ├── 👤 user.service.ts     # 用戶管理服務
+│   │   │   ├── 📦 product.service.ts  # 商品服務
+│   │   │   ├── 🛒 cart.service.ts     # 購物車服務
+│   │   │   ├── 📋 order.service.ts    # 訂單服務
+│   │   │   └── 🔒 crypto.service.ts   # 加密服務
+│   │   ├── 📄 app.component.*      # 主應用組件
+│   │   ├── 🛣️ app.routes.ts        # 路由配置
+│   │   ├── ⚙️ app.config.ts        # 應用配置
+│   │   └── 🎨 styles/              # 組件樣式
+│   ├── 📂 public/                   # 靜態資源
+│   │   ├── 🖼️ images/              # 圖片資源
+│   │   └── 📁 assets/              # 其他靜態資源
+│   ├── 📄 index.html               # 主 HTML 模板
+│   ├── 🚀 main.ts                  # 應用程式入口點
+│   ├── 🎨 styles.css              # 全域樣式
+│   ├── 🖥️ server.ts               # SSR 服務端配置
+│   └── 🧪 test-main.ts            # 測試配置
+├── ⚙️ angular.json                 # Angular CLI 配置
+├── 📦 package.json                 # NPM 依赖與腳本
+├── 📝 tsconfig.json               # TypeScript 編譯配置
+├── 🧪 karma.conf.js               # 測試配置
+└── 📚 README.md                   # 專案說明文檔
+```
+
+### 🏗️ 架構設計原則
+
+#### 📱 組件層次 (Components)
+- **展示型組件**：純 UI 展示，接收 @Input，發送 @Output
+- **容器型組件**：業務邏輯處理，連接服務層
+- **頁面組件**：路由對應的頂層組件
+
+#### 🔧 服務層 (Services)
+- **AuthService**：中央認證管理，狀態同步
+- **業務服務**：各模組專用的數據處理
+- **工具服務**：通用功能（加密、HTTP 攔截器等）
+
+#### 🛣️ 路由設計
+- **用戶權限控制**：基於角色的路由守衛
+- **懶加載**：按需載入頁面組件
+- **SEO 友好**：SSR 支援的路由結構
+
+## 🚀 快速開始
+
+### 📋 環境要求
+| 環境 | 版本要求 | 檢查指令 |
+|------|----------|----------|
+| **Node.js** | 18.x 或更高 | `node --version` |
+| **npm** | 9.x 或更高 | `npm --version` |
+| **Angular CLI** | 19.x | `ng version` |
+
+### ⚡ 安裝步驟
+
+#### 1. 📥 取得專案
+```bash
+# 克隆專案倉庫
+git clone https://github.com/chenjason0418/stellaris_website.git
+cd stellaris_website/frontend
+```
+
+#### 2. 📦 安裝依賴
+```bash
+# 安裝所有 NPM 依賴
+npm install
+```
+
+#### 3. 🏃‍♂️ 啟動開發服務器
+```bash
+# 方式一：使用 npm 腳本
+npm start
+
+# 方式二：直接使用 Angular CLI
+ng serve
+
+# 服務器將在 http://localhost:4200 啟動
+```
+
+#### 4. 🌐 訪問應用
+打開瀏覽器並訪問：**http://localhost:4200**
+
+### 🔧 開發指令
+
+| 指令 | 功能 | 說明 |
+|------|------|------|
+| `npm start` | 啟動開發服務器 | 熱重載，自動刷新 |
+| `npm run build` | 建置生產版本 | 輸出到 `dist/` 目錄 |
+| `npm test` | 運行單元測試 | 使用 Jasmine + Karma |
+| `npm run watch` | 監聽模式建置 | 開發用，文件變更自動建置 |
+| `npm run serve:ssr:class20250521` | 啟動 SSR 服務器 | 服務端渲染模式 |
+
+### 🔗 相關服務
+
+#### 後端 API 服務
+前端需要配合後端 Spring Boot 服務運行：
+```bash
+# 在另一個終端啟動後端服務
+cd ../backend
+./mvnw spring-boot:run
+
+# 後端服務將在 http://localhost:8080 啟動
+```
+
+#### 🌍 服務架構
+```
+前端 (Angular)     後端 (Spring Boot)     資料庫
+http://localhost:4200 → http://localhost:8080 → H2/MySQL
+```
+
+## 🧩 核心組件詳解
+
+### 🏠 AppComponent - 主應用組件
+**職責**：應用程式的根組件和主要容器
+- **導航系統**：響應式導航欄，支援桌面和手機版
+- **認證狀態管理**：用戶登入/登出狀態的中央控制
+- **權限控制**：基於用戶角色顯示相應功能
+- **滾動效果**：頁面滾動時的動態效果控制
+- **模態窗口管理**：登入、註冊、訂單查詢彈窗控制
+
+### 👥 UserListComponent - 用戶管理組件
+**職責**：管理員專用的用戶管理界面
+- **用戶 CRUD**：新增、查看、編輯、刪除用戶
+- **統計儀表板**：總用戶數、管理員數、活躍用戶統計
+- **進階表單**：密碼強度檢查、角色選擇、狀態管理
+- **資料視覺化**：彩色徽章顯示用戶狀態和角色
+- **響應式表格**：適配不同屏幕的用戶列表展示
+
+### 🔐 LoginComponent & RegisterComponent - 認證組件
+**職責**：用戶身份認證和註冊流程
+#### LoginComponent
+- **安全登入**：加密傳輸，JWT Token 認證
+- **表單驗證**：即時驗證用戶輸入
+- **狀態同步**：登入成功後同步認證狀態
+- **錯誤處理**：友善的錯誤提示
+
+#### RegisterComponent  
+- **用戶註冊**：完整的註冊流程
+- **密碼安全**：密碼強度檢查和加密
+- **重複檢查**：Email 唯一性驗證
+- **自動登入**：註冊成功後自動登入
+
+### 📋 UserOrdersComponent - 用戶訂單組件
+**職責**：用戶個人訂單查詢與管理
+- **彈窗設計**：非侵入式的訂單查詢界面
+- **訂單列表**：時間排序的訂單展示
+- **詳情展開**：可摺疊的訂單詳細信息
+- **狀態指示**：視覺化的訂單狀態顯示
+- **響應式佈局**：手機友好的訂單查看體驗
+
+### 📊 OrderManagementComponent - 訂單管理組件
+**職責**：管理員的訂單管理系統
+- **訂單概覽**：所有訂單的統一管理界面
+- **狀態更新**：訂單狀態的批量和單個更新
+- **詳情查看**：完整的訂單信息展示
+- **搜索篩選**：按狀態、日期、用戶篩選訂單
+
+## 🔧 服務層架構
+
+### 🔐 AuthService - 認證服務 (核心)
+**職責**：中央認證管理，應用程式認證狀態的唯一真實來源
+- **狀態管理**：使用 BehaviorSubject 管理認證狀態
+- **Token 管理**：JWT Token 的存儲、驗證、清除
+- **SSR 安全**：平台檢查，避免 SSR 環境的 localStorage 錯誤
+- **自動登出**：登出後強制跳轉首頁
+- **權限檢查**：`isAdmin()`、`isUser()` 角色判斷
+```typescript
+// 核心 API
+currentUser$: Observable<AuthUser | null>
+isLoggedIn$: Observable<boolean>
+login(user: AuthUser): void
+logout(): void
+```
+
+### 👤 UserService - 用戶管理服務
+**職責**：用戶相關的所有業務邏輯處理
+- **CRUD 操作**：創建、讀取、更新、刪除用戶
+- **認證整合**：所有請求自動添加 Authorization headers
+- **資料驗證**：Email 唯一性檢查
+- **密碼安全**：與後端協作的密碼加密
+- **分頁查詢**：支援大量用戶資料的分頁載入
+
+### 📦 ProductService - 商品服務
+**職責**：商品資料的管理與展示
+- **商品目錄**：分類、搜索、篩選功能
+- **庫存管理**：即時庫存狀態查詢
+- **價格計算**：動態價格與優惠計算
+- **圖片管理**：商品圖片的載入與快取
+
+### 🛒 CartService - 購物車服務
+**職責**：購物車狀態管理與持久化
+- **狀態管理**：使用 RxJS 管理購物車狀態
+- **本地持久化**：購物車資料的本地存儲
+- **即時計算**：商品數量、小計、總計的即時更新
+- **商品驗證**：購物車商品的有效性檢查
+
+### 📋 OrderService - 訂單服務
+**職責**：訂單全生命週期管理
+- **訂單建立**：從購物車到訂單的轉換
+- **狀態追蹤**：訂單狀態的即時更新
+- **歷史查詢**：用戶訂單歷史的分頁查詢
+- **管理功能**：管理員的訂單管理 API
+
+### 🔒 CryptoService - 加密服務
+**職責**：前端資料加密與安全處理
+- **密碼加密**：註冊時的客戶端密碼加密
+- **資料保護**：敏感資料的加密存儲
+- **安全工具**：提供通用的加密解密方法
+
+## 🎭 頁面結構與用戶旅程
+
+### 🏠 首頁 (Home Page)
+**設計理念**：一站式宇宙探索入口
+1. **Hero Section** - 動態輪播，展示精選宇宙內容
+2. **Navigation Hub** - 快速訪問各功能模組
+3. **Preview Sections** - 各模組的內容預覽
+4. **Interactive Elements** - 滾動觸發動畫
+
+### 🌟 內容頁面群組
+- **🌌 Explore** - 沉浸式宇宙探索體驗
+- **🖼️ Gallery** - 高品質太空攝影展示
+- **🚀 Missions** - 歷史與未來太空任務
+- **📚 Learn** - 互動式天文學習中心
+
+### 🛒 電商功能群組
+- **🛍️ Shop** - 太空主題商品展示
+- **🛒 Cart** - 智能購物車系統
+- **📋 Checkout** - 安全結帳流程
+
+### 📞 支援與聯絡
+- **Contact** - 多元聯絡方式與客服支援
+
+## 🔐 權限控制系統
+
+### � 用戶角色定義
+| 角色 | 權限範圍 | 可用功能 |
+|------|----------|----------|
+| **👤 訪客** | 基礎瀏覽 | • 所有內容頁面瀏覽<br>• 商品查看<br>• 註冊登入 |
+| **🔑 註冊用戶** | 完整電商體驗 | • 訪客所有功能<br>• 購物車使用<br>• 下單結帳<br>• 我的訂單查詢<br>• 個人資料管理 |
+| **👑 管理員** | 系統管理 | • 註冊用戶所有功能<br>• 用戶管理系統<br>• 訂單管理系統<br>• 系統統計查看 |
+
+### 🛡️ 安全機制
+- **路由守衛**：基於角色的頁面訪問控制
+- **API 認證**：所有後端請求的 JWT Token 驗證
+- **狀態同步**：認證狀態的即時同步更新
+- **自動登出**：非活躍狀態的安全登出
+
+## 🌐 API 整合架構
+
+### 🔗 後端整合
+前端與 **Spring Boot** 後端的完整整合：
+
+| 服務 | 端點 | 用途 |
+|------|------|------|
+| **前端服務** | `http://localhost:4200` | Angular 開發服務器 |
+| **後端 API** | `http://localhost:8080` | Spring Boot REST API |
+| **資料庫** | H2/MySQL | 資料持久化層 |
+
+### 📡 API 端點規劃
+
+#### 🔐 認證相關 (`/api/users`)
+```typescript
+POST /api/users/login          // 用戶登入
+POST /api/users                // 用戶註冊  
+GET  /api/users                // 獲取用戶列表（管理員）
+GET  /api/users/{id}           // 獲取特定用戶
+PUT  /api/users/{id}           // 更新用戶資料
+DELETE /api/users/{id}         // 刪除用戶（管理員）
+```
+
+#### 📋 訂單相關 (`/api/orders`)
+```typescript
+POST /api/orders/checkout      // 建立訂單
+GET  /api/orders/user/{userId} // 獲取用戶訂單
+GET  /api/orders/all           // 獲取所有訂單（管理員）
+GET  /api/orders/{orderId}     // 獲取訂單詳情
+POST /api/orders/{orderId}/status // 更新訂單狀態
+```
+
+### 🔒 安全機制
+- **JWT 驗證**：所有 API 請求附帶 Bearer Token
+- **CORS 配置**：允許前端跨域訪問
+- **角色驗證**：後端基於 JWT 驗證用戶權限
+- **錯誤處理**：統一的 HTTP 錯誤響應格式
+
+## 📱 響應式設計
+
+### 🖥️ 多設備支援
+| 設備類型 | 螢幕寬度 | 設計重點 | 特色功能 |
+|----------|----------|----------|----------|
+| **🖥️ 桌面版** | ≥ 1200px | 完整功能展示 | • 多欄式佈局<br>• 完整導航欄<br>• 懸停效果<br>• 大尺寸圖片展示 |
+| **💻 筆電版** | 992px - 1199px | 適中功能密度 | • 彈性佈局<br>• 適中間距<br>• 優化字體大小 |
+| **📱 平板版** | 768px - 991px | 觸控優化 | • 可摺疊導航<br>• 觸控友好按鈕<br>• 垂直佈局調整 |
+| **📱 手機版** | < 768px | 行動優先 | • 漢堡選單<br>• 單欄佈局<br>• 大按鈕設計<br>• 滑動操作 |
+
+### 🎨 視覺設計系統
+
+#### 🌌 色彩方案
+```css
+/* 主色調 - 宇宙深空主題 */
+--primary-dark: #0a0a0a      /* 深空黑 */
+--primary-blue: #1a1a2e      /* 深空藍 */
+--secondary-blue: #16213e    /* 星雲藍 */
+--accent-gold: #ffd700       /* 星光金 */
+--accent-white: #ffffff      /* 純白 */
+
+/* 功能色彩 */
+--success: #28a745           /* 成功綠 */
+--warning: #ffc107           /* 警告黃 */
+--danger: #dc3545            /* 危險紅 */
+--info: #17a2b8              /* 信息藍 */
+```
+
+#### ✨ 動畫效果
+- **AOS (Animate On Scroll)**：滾動觸發動畫
+- **CSS Transitions**：按鈕懸停、狀態變化
+- **Transform Animations**：卡片浮起、3D 效果
+- **Loading Animations**：數據載入時的視覺反饋
+
+#### 🔤 字體設計
+```css
+/* 主要字體家族 */
+font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+/* 字體大小系統 */
+--font-size-h1: 2.5rem       /* 主標題 */
+--font-size-h2: 2rem         /* 副標題 */
+--font-size-body: 1rem        /* 正文 */
+--font-size-small: 0.875rem   /* 小字 */
+```
+
+#### 🏗️ 佈局系統
+- **Bootstrap Grid**：12 欄柵格系統
+- **Flexbox**：彈性佈局控制
+- **CSS Grid**：複雜佈局實現
+- **Container 系統**：響應式容器控制
+
+## 🔮 開發藍圖
+
+### 📅 短期計畫 (1-2 個月)
+- [ ] **🌍 國際化 (i18n)**：多語言支援（英文、中文）
+- [ ] **🔍 進階搜索**：商品智能搜索與篩選
+- [ ] **📱 PWA 功能**：離線支援與 App 體驗
+- [ ] **⚡ 效能優化**：圖片懶載入、代碼分割
+
+### 📅 中期計畫 (3-6 個月)  
+- [ ] **🔔 即時通知**：WebSocket 即時訂單狀態更新
+- [ ] **⭐ 評論系統**：商品評分與用戶評論
+- [ ] **🔗 社交分享**：社交媒體分享功能
+- [ ] **🤖 智能推薦**：基於用戶行為的個人化推薦
+
+### 📅 長期願景 (6+ 個月)
+- [ ] **🎮 AR/VR 功能**：沉浸式太空探索體驗
+- [ ] **🧠 AI 助手**：智能客服與購物助手
+- [ ] **📊 數據分析**：用戶行為分析儀表板
+- [ ] **🌐 API 開放**：第三方開發者 API
+
+## 🐛 已知問題與限制
+
+### ⚠️ 效能相關
+| 問題 | 影響範圍 | 解決計畫 |
+|------|----------|----------|
+| **圖片載入效能** | 大量圖片頁面 | 實施懶載入與 WebP 格式 |
+| **首屏載入時間** | SSR 頁面 | 優化 bundle 大小與關鍵 CSS |
+| **動畫流暢度** | 低端設備 | 增加效能檢測與降級方案 |
+
+### 🔧 技術債務
+- **代碼重構**：部分組件需要模組化重構
+- **測試覆蓋率**：需要增加單元測試與 E2E 測試
+- **文檔完善**：API 文檔與開發文檔需要補充
+
+### 🌐 瀏覽器相容性
+| 瀏覽器 | 支援版本 | 已知問題 |
+|--------|----------|----------|
+| **Chrome** | 90+ | ✅ 完全支援 |
+| **Firefox** | 88+ | ✅ 完全支援 |
+| **Safari** | 14+ | ⚠️ 部分 CSS 特效需調整 |
+| **Edge** | 90+ | ✅ 完全支援 |
+| **IE** | 不支援 | ❌ 現代瀏覽器專用 |
+
+## 🤝 貢獻指南
+
+### 🔧 開發流程
+我們歡迎社群貢獻！請遵循以下步驟：
+
+#### 1. 🍴 準備工作
+```bash
+# Fork 專案到你的 GitHub 帳號
+# 克隆你的 Fork
+git clone https://github.com/{your-username}/stellaris_website.git
+cd stellaris_website/frontend
+
+# 添加上游倉庫
+git remote add upstream https://github.com/chenjason0418/stellaris_website.git
+```
+
+#### 2. 🌿 建立功能分支
+```bash
+# 同步最新代碼
+git fetch upstream
+git checkout main
+git merge upstream/main
+
+# 建立功能分支
+git checkout -b feature/amazing-feature
+# 或修復分支
+git checkout -b fix/bug-description
+```
+
+#### 3. 💻 開發與測試
+```bash
+# 安裝依賴
+npm install
+
+# 啟動開發服務器
+npm start
+
+# 運行測試
+npm test
+
+# 檢查代碼風格
+ng lint
+```
+
+#### 4. 📝 提交代碼
+```bash
+# 提交變更（請使用清晰的提交訊息）
+git add .
+git commit -m "feat: add amazing new feature
+
+- Implement feature A
+- Improve performance of B
+- Fix issue with C"
+
+# 推送到你的 Fork
+git push origin feature/amazing-feature
+```
+
+#### 5. 🔄 建立 Pull Request
+- 前往 GitHub 建立 Pull Request
+- 詳細描述你的變更
+- 附上相關的測試結果或截圖
+
+### 📋 貢獻規範
+- **代碼風格**：遵循 Angular 官方風格指南
+- **提交訊息**：使用 [Conventional Commits](https://conventionalcommits.org/) 格式
+- **測試**：新功能必須包含相應測試
+- **文檔**：更新相關文檔說明
+
+## 📄 開源授權
+
+此專案採用 **MIT License** 開源授權。
+
+```
+MIT License
+
+Copyright (c) 2025 Jason Chen
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+```
+
+詳細授權條款請查看 [LICENSE](../LICENSE) 文件。
+
+## 📞 聯絡資訊
+
+### 👨‍💻 開發團隊
+- **專案負責人**：Jason Chen
+- **Email**：[chenjason0418@gmail.com](mailto:chenjason0418@gmail.com)
+- **GitHub**：[@chenjason0418](https://github.com/chenjason0418)
+
+### � 相關連結
+- **專案倉庫**：[stellaris_website](https://github.com/chenjason0418/stellaris_website)
+- **問題回報**：[GitHub Issues](https://github.com/chenjason0418/stellaris_website/issues)
+- **功能建議**：[GitHub Discussions](https://github.com/chenjason0418/stellaris_website/discussions)
+
+## �🙏 致謝與感謝
+
+### 🛠️ 技術支持
+- **[Angular Team](https://angular.io/)**：提供優秀的前端框架
+- **[Bootstrap](https://getbootstrap.com/)**：美觀且功能完備的 UI 框架
+- **[RxJS](https://rxjs.dev/)**：強大的響應式編程庫
+
+### 🌌 內容來源
+- **[NASA](https://www.nasa.gov/)**：提供精美的太空探索圖片與資料
+- **[ESA](https://www.esa.int/)**：歐洲太空總署的科學資料
+- **[SpaceX](https://www.spacex.com/)**：現代太空探索的靈感來源
+
+### 🤝 開源社群
+感謝所有開源貢獻者的無私奉獻，讓這個專案能夠建立在巨人的肩膀上。
+
+---
+
+<div align="center">
+
+## 🚀 探索無垠宇宙，從 Stellaris 開始！ ✨
+
+**[🌟 開始使用](#-快速開始) | [� 查看文檔](#-專案架構) | [🤝 參與貢獻](#-貢獻指南)**
+
+</div>

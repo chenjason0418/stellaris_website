@@ -1,0 +1,50 @@
+<section id="contact-section" class="section contact-section">
+    <h2 class="section-title" data-aos="fade-up">聯絡我們</h2>
+    <p class="section-subtitle" data-aos="fade-up" data-aos-delay="100">如果您有任何問題、合作提案或想了解更多資訊，歡迎透過以下表單聯繫我們。</p>
+
+    <div class="contact-container">
+
+      <form class="contact-form" data-aos="fade-right" data-aos-delay="200" (ngSubmit)="onSubmit()">
+        <input type="text"
+               name="name"
+               placeholder="您的姓名"
+               [(ngModel)]="contactForm.name"
+               required>
+        <input type="email"
+               name="email"
+               placeholder="您的電子信箱"
+               [(ngModel)]="contactForm.email"
+               required>
+        <input type="text"
+               name="subject"
+               placeholder="主旨"
+               [(ngModel)]="contactForm.subject">
+        <textarea name="message"
+                  rows="6"
+                  placeholder="請輸入您的訊息..."
+                  [(ngModel)]="contactForm.message"
+                  required></textarea>
+        <button type="submit" data-aos="zoom-in" data-aos-delay="100">送出訊息</button>
+      </form>
+
+      <div class="contact-info" data-aos="fade-left" data-aos-delay="300">
+        <h3>聯絡資訊</h3>
+        <ul>
+          <li><strong>電話：</strong>+886-0-0000000</li>
+          <li><strong>Email：</strong>stellara&#64;example.com</li>
+          <li><strong>地址：</strong>709台南市安南區台江大道三段600號</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="contact-map" data-aos="zoom-in" data-aos-delay="400">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14683.4624645268!2d120.1507225031923!3d23.065387834609183!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x346e77fd30675b4b%3A0x9f9349b0fd1bb7c3!2z5Lit5L-h6YeR6J6N566h55CG5a246Zqi!5e0!3m2!1szh-TW!2stw!4v1746722800269!5m2!1szh-TW!2stw"
+                width="600"
+                height="450"
+                style="border:0;"
+                allowfullscreen=""
+                loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+    </div>
+</section>

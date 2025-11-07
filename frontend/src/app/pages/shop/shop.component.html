@@ -1,0 +1,81 @@
+<section class="shopping-cart-section" id="shopping-section">
+    <h2 class="section-title" data-aos="fade-up" data-aos-duration="800">宇宙商品店</h2>
+    <p class="section-subtitle" data-aos="fade-up" data-aos-delay="100">探索宇宙，從這些精選商品開始</p>
+
+    <!-- 商品展示區 -->
+    <div class="products-grid" data-aos="fade-up" data-aos-delay="200">
+        <div class="product-card" *ngFor="let product of products" data-aos="zoom-in" data-aos-delay="300">
+            <img [src]="product.image" [alt]="product.name" class="product-image">
+            <div class="product-info">
+                <h3 class="product-name">{{ product.name }}</h3>
+                <p class="product-description">{{ product.description }}</p>
+                <div class="product-price">${{ product.price }}</div>
+                <button class="add-to-cart-btn" (click)="addToCart(product)">
+                    加入購物車
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 購物車側邊欄 -->
+    <div class="cart-sidebar" [class.active]="isCartOpen">
+        <div class="cart-header">
+            <h3>購物車</h3>
+            <button class="close-cart-btn" (click)="toggleCart()">&times;</button>
+        </div>
+        <div class="cart-items">
+            <div class="cart-item" *ngFor="let item of cartItems; let i = index">
+                <img [src]="item.product.image" [alt]="item.product.name" class="cart-item-image">
+                <div class="cart-item-info">
+                    <h4>{{ item.product.name }}</h4>
+                    <div class="quantity-controls">
+                        <button (click)="decreaseQuantity(i)">-</button>
+                        <span>{{ item.quantity }}</span>
+                        <button (click)="increaseQuantity(i)">+</button>
+                    </div>
+                    <div class="item-price">${{ item.product.price * item.quantity }}</div>
+                </div>
+                <button class="remove-item-btn" (click)="removeFromCart(i)">&times;</button>
+            </div>
+        </div>
+        <div class="cart-footer" *ngIf="cartItems.length > 0">
+            <div class="cart-total">
+                總計: ${{ getCartTotal() }}
+            </div>
+            <button class="checkout-btn" (click)="checkout()">結帳</button>
+        </div>
+        <div class="empty-cart" *ngIf="cartItems.length === 0">
+            <p>購物車是空的</p>
+        </div>
+    </div>
+
+    <!-- 購物車按鈕 -->
+    <button class="cart-toggle-btn" (click)="toggleCart()" data-aos="fade-left">
+        🛒 <span class="cart-count" *ngIf="getCartItemsCount() > 0">{{ getCartItemsCount() }}</span>
+    </button>
+
+    <div class="cart-overlay" [class.active]="isCartOpen" (click)="toggleCart()"></div>
+
+
+
+    <!-- 登入彈窗 -->
+    <div class="modal-overlay" *ngIf="isLoginModalOpen">
+        <div class="modal-content" (click)="$event.stopPropagation()">
+            <app-login
+                (loginSuccess)="handleLoginSuccess($event)"
+                (closeLogin)="isLoginModalOpen = false"
+                (switchToRegister)="handleSwitchToRegister()">
+            </app-login>
+        </div>
+    </div>
+
+    <!-- 註冊彈窗 -->
+    <div class="modal-overlay" *ngIf="isRegisterModalOpen">
+        <div class="modal-content" (click)="$event.stopPropagation()">
+            <app-register
+                (registerSuccess)="handleRegisterSuccess()"
+                (closeRegister)="isRegisterModalOpen = false">
+            </app-register>
+        </div>
+    </div>
+</section>

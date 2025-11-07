@@ -1,0 +1,94 @@
+<section id="learn-section" class="first-section">
+    <div class="right" data-aos="fade-left" data-aos-duration="800">
+        <h2 class="section-title">關於宇宙，我們正踏上未知的旅程</h2>
+    </div>
+    <div class="left" data-aos="fade-right" data-aos-duration="800">
+        <p>從耀眼的星雲到深不可測的黑洞，宇宙的奧秘正等待著你我一同探索。這不僅是一場知識的旅程，更是對未知的敬畏與想像力的冒險。</p>
+    </div>
+</section>
+
+<section class="section">
+    <div class="gallery">
+        <div class="gallery-item" data-aos="flip-left" data-aos-delay="100">
+            <img src="black-hole.jpg" alt="Black Hole">
+            <div class="gallery-content">
+                <div class="gallery-header">
+                    <p>🌑 黑洞</p>
+                    <button class="more-btn" (click)="openModal(0)">
+                        <img src="morebtn.png" alt="More Button">
+                    </button>
+                </div>
+                <p class="gallery-description">引力強大到連光都無法逃脫的神秘天體，是宇宙中最極端的存在之一，改寫我們對時空的認知。</p>
+            </div>
+        </div>
+        <div class="gallery-item" data-aos="flip-right" data-aos-delay="200">
+            <img src="universe.jpg" alt="Universe">
+            <div class="gallery-content">
+                <div class="gallery-header">
+                    <p>🌌 宇宙</p>
+                    <button class="more-btn" (click)="openModal(1)">
+                        <img src="morebtn.png" alt="More Button">
+                    </button>
+                </div>
+                <p class="gallery-description">宇宙是包含時間、空間、能量與所有星體的總體。從微觀粒子到宏觀星系，無窮無盡，等待我們探索。</p>
+            </div>
+        </div>
+        <div class="gallery-item" data-aos="flip-left" data-aos-delay="300">
+            <img src="eight.jpg" alt="Eight Planets">
+            <div class="gallery-content">
+                <div class="gallery-header">
+                    <p>🪐 八大行星</p>
+                    <button class="more-btn" (click)="openModal(2)">
+                        <img src="morebtn.png" alt="More Button">
+                    </button>
+                </div>
+                <p class="gallery-description">如夢似幻的星雲，是恆星的誕生地。這些壯麗的氣體雲團構成宇宙最美的畫面之一。</p>
+            </div>
+        </div>
+        <div class="gallery-item" data-aos="flip-right" data-aos-delay="400">
+            <img src="Nebula.jpg" alt="Nebula">
+            <div class="gallery-content">
+                <div class="gallery-header">
+                    <p>🌠 星雲</p>
+                    <button class="more-btn" (click)="openModal(3)">
+                        <img src="morebtn.png" alt="More Button">
+                    </button>
+                </div>
+                <p class="gallery-description">宇宙中絢麗多彩的星際雲團，是恆星誕生的搖籃。</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 模態框 -->
+<div id="modal-blackhole" class="modal" [style.display]="activeModalId === 'modal-blackhole' ? 'flex' : 'none'" (click)="onModalBackdropClick($event)">
+  <div class="modal-content">
+      <span class="close-btn" (click)="closeModal()">&times;</span>
+      <h2>黑洞是什麼？</h2>
+      <p>黑洞是一種極端天體，擁有如此強大的重力場，甚至連光都無法逃逸。它通常由大質量恆星崩潰形成，其中心區域稱為「奇點」。黑洞是研究廣義相對論與時空結構的重要對象。</p>
+  </div>
+</div>
+
+<div id="modal-universe" class="modal" [style.display]="activeModalId === 'modal-universe' ? 'flex' : 'none'" (click)="onModalBackdropClick($event)">
+  <div class="modal-content">
+      <span class="close-btn" (click)="closeModal()">&times;</span>
+      <h2>宇宙的奧秘</h2>
+      <p>宇宙包含了所有物質、能量、時間與空間，其歷史可追溯至約138億年前的大爆炸。現今的觀測顯示，宇宙仍持續膨脹，其中包含數千億個星系與無數恆星與行星。</p>
+  </div>
+</div>
+
+<div id="modal-planets" class="modal" [style.display]="activeModalId === 'modal-planets' ? 'flex' : 'none'" (click)="onModalBackdropClick($event)">
+  <div class="modal-content">
+      <span class="close-btn" (click)="closeModal()">&times;</span>
+      <h2>太陽系八大行星</h2>
+      <p>太陽系的八大行星分為內行星（水星、金星、地球、火星）與外行星（木星、土星、天王星、海王星），各具特色，如木星是最大行星，金星表面高溫，火星可能有水源。</p>
+  </div>
+</div>
+
+<div id="modal-nebula" class="modal" [style.display]="activeModalId === 'modal-nebula' ? 'flex' : 'none'" (click)="onModalBackdropClick($event)">
+  <div class="modal-content">
+      <span class="close-btn" (click)="closeModal()">&times;</span>
+      <h2>星雲的誕生與美麗</h2>
+      <p>星雲是星際間由氣體與塵埃組成的巨大雲團，常為恆星誕生地或超新星爆炸後的遺跡。著名如「獵戶座星雲」與「蟹狀星雲」，其壯觀色彩由電離氣體發光形成。</p>
+  </div>
+</div>

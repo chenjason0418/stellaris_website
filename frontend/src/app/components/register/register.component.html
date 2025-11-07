@@ -1,0 +1,70 @@
+<div class="register-overlay" (click)="onBackdropClick($event)">
+  <div class="register-modal">
+    <div class="register-header">
+      <h2>註冊新帳戶</h2>
+      <button class="close-btn" (click)="onClose()">&times;</button>
+    </div>
+
+    <form (ngSubmit)="onSubmit()" class="register-form">
+      <div class="form-group">
+        <label for="register-name">姓名</label>
+        <input
+          type="text"
+          id="register-name"
+          [(ngModel)]="registerData.name"
+          name="name"
+          placeholder="請輸入您的姓名"
+          required>
+      </div>
+
+      <div class="form-group">
+        <label for="register-email">電子信箱</label>
+        <input
+          type="email"
+          id="register-email"
+          [(ngModel)]="registerData.email"
+          name="email"
+          placeholder="請輸入電子信箱"
+          required>
+      </div>
+
+      <div class="form-group">
+        <label for="register-password">密碼</label>
+        <input
+          type="password"
+          id="register-password"
+          [(ngModel)]="registerData.password"
+          name="password"
+          placeholder="請輸入密碼（至少6個字符）"
+          required>
+      </div>
+
+      <div class="form-group">
+        <label for="confirm-password">確認密碼</label>
+        <input
+          type="password"
+          id="confirm-password"
+          [(ngModel)]="registerData.confirmPassword"
+          name="confirmPassword"
+          placeholder="請再次輸入密碼"
+          required>
+      </div>
+
+      <div class="error-message" *ngIf="errorMessage">
+        {{ errorMessage }}
+      </div>
+
+      <button
+        type="submit"
+        class="register-btn"
+        [disabled]="isLoading">
+        <span *ngIf="!isLoading">註冊</span>
+        <span *ngIf="isLoading">註冊中...</span>
+      </button>
+    </form>
+
+    <div class="register-footer">
+      <p>已有帳戶？ <a (click)="onSwitchToLogin()" class="switch-link">登入</a></p>
+    </div>
+  </div>
+</div>

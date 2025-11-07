@@ -1,0 +1,12 @@
+<section id="hero-section" class="hero-section">
+  <ngx-slick-carousel class="hero-carousel" [config]="heroSlideConfig">
+    <div ngxSlickItem *ngFor="let slide of heroSlides" class="hero-slide">
+      <img [src]="slide.img" alt="hero-background" />
+    </div>
+  </ngx-slick-carousel>
+  <div class="hero-content" data-aos="fade-up" data-aos-duration="1000">
+    <h1>探索無垠宇宙</h1>
+    <p>從太陽系行星到遙遠星系，開啟你的宇宙之旅</p>
+    <button class="explore-btn" routerLink="/explore">開始探索</button>
+  </div>
+</section>

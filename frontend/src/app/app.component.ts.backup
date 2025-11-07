@@ -1,0 +1,664 @@
+import { RouterOutlet, RouterLink } from '@angular/router';
+import { Component, HostListener, OnInit, ChangeDetectorRef } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { UserService, User, UserStats } from './services/user.service';
+import { OrderService, Order } from './services/order.service';
+
+
+@Component({
+  selector: 'app-root',
+  imports: [CommonModule, RouterOutlet, RouterLink],
+  templateUrl: './app.component.html',
+  styleUrl: './app.component.css'
+})
+export class AppComponent implements OnInit {
+  title = 'class20250521';
+  isFixed = false;
+  isScrolled = false;
+  isMenuActive = false;
+
+  // 登入相關屬性
+  isLoginOpen = false;
+  isRegisterOpen = false;
+  currentUser: any = null;
+  isLoggedIn = false;
+
+  // 用戶管理相關屬性
+  showUserList = false;
+  showAddUserModal = false;
+  isRefreshing = false;
+  isRefreshingUsers = false;
+  newUser: User = {
+    name: '',
+    email: '',
+    password: '',
+    role: 'user',
+    status: 'active',
+    registeredDate: new Date()
+  };
+  userStats: UserStats = {
+    totalUsers: 0,
+    totalOrders: 0,
+    totalRevenue: 0,
+    activeUsers: 0
+  };
+  userList: User[] = [];
+
+  // 用戶訂單狀態相關屬性
+  showUserOrderModal = false;
+  showUserOrderDetailModal = false;
+  loadingUserOrders = false;
+  userOrders: Order[] = [];
+  filteredUserOrders: Order[] = [];
+  userOrderStatusFilter = '';
+  selectedUserOrder: Order | null = null;
+
+  constructor(
+    private userService: UserService,
+    private orderService: OrderService,
+    private cdr: ChangeDetectorRef
+  ) {}
+
+  ngOnInit() {
+    // 載入用戶統計數據和用戶列表
+    this.loadUserStats();
+    this.loadUserList();
+  }
+
+
+
+  @HostListener('window:scroll', [])
+  onWindowScroll() {
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop ||
+    document.body.scrollTop || 0;
+
+    if (scrollTop > 50) {
+      this.isFixed = true;
+      this.isScrolled = true;
+    } else {
+      this.isFixed = false;
+      this.isScrolled = false;
+    }
+  }
+
+  toggleMenu() {
+    this.isMenuActive = !this.isMenuActive;
+  }
+
+  scrollToTop() {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  }
+
+
+
+
+
+  // 載入用戶統計數據
+  loadUserStats(): void {
+    this.userService.getUserStats().subscribe({
+      next: (stats) => {
+        this.userStats = stats;
+        console.log('用戶統計數據載入成功:', stats);
+      },
+      error: (error) => {
+        console.error('載入用戶統計失敗:', error);
+        // 設置預設值以避免頁面顯示錯誤
+        this.userStats = {
+          totalUsers: 0,
+          totalOrders: 0,
+          totalRevenue: 0,
+          activeUsers: 0
+        };
+      }
+    });
+  }
+
+  // 載入用戶列表
+  loadUserList(): void {
+    this.userService.getAllUsers().subscribe({
+      next: (users) => {
+        this.userList = users;
+        console.log('用戶列表載入成功，共', users.length, '個用戶');
+      },
+      error: (error) => {
+        console.error('載入用戶列表失敗:', error);
+        // 設置空陣列以避免頁面顯示錯誤
+        this.userList = [];
+      }
+    });
+  }
+
+
+
+  addToCart(product: Product): void {
+    this.cartService.addToCart(product.id, 1).subscribe({
+      next: (cartItem) => {
+        this.loadCartItems(); // 重新載入購物車
+        this.isCartOpen = true; // 打開購物車側邊欄
+      },
+      error: (error) => {
+        console.error('添加到購物車失敗:', error);
+        alert('添加到購物車失敗，請稍後重試');
+      }
+    });
+  }
+
+  removeFromCart(index: number): void {
+    const cartItem = this.cartItems[index];
+    if (cartItem) {
+      this.cartService.removeFromCart(cartItem.id).subscribe({
+        next: () => {
+          this.loadCartItems(); // 重新載入購物車
+        },
+        error: (error) => {
+          console.error('從購物車移除失敗:', error);
+          alert('從購物車移除失敗，請稍後重試');
+        }
+      });
+    }
+  }
+
+  increaseQuantity(index: number): void {
+    const cartItem = this.cartItems[index];
+    if (cartItem) {
+      this.cartService.updateCartItemQuantity(cartItem.id, cartItem.quantity + 1).subscribe({
+        next: () => {
+          this.loadCartItems(); // 重新載入購物車
+        },
+        error: (error) => {
+          console.error('更新數量失敗:', error);
+          alert('更新數量失敗，請稍後重試');
+        }
+      });
+    }
+  }
+
+  decreaseQuantity(index: number): void {
+    const cartItem = this.cartItems[index];
+    if (cartItem) {
+      if (cartItem.quantity > 1) {
+        this.cartService.updateCartItemQuantity(cartItem.id, cartItem.quantity - 1).subscribe({
+          next: () => {
+            this.loadCartItems(); // 重新載入購物車
+          },
+          error: (error) => {
+            console.error('更新數量失敗:', error);
+            alert('更新數量失敗，請稍後重試');
+          }
+        });
+      } else {
+        this.removeFromCart(index);
+      }
+    }
+  }
+
+  getCartTotal(): number {
+    return this.cartSummary.total;
+  }
+
+  getCartItemsCount(): number {
+    return this.cartSummary.itemCount;
+  }
+
+  checkout(): void {
+    if (this.cartItems.length === 0) {
+      alert('購物車是空的！');
+      return;
+    }
+
+    // 檢查是否已登入
+    if (!this.isLoggedIn || !this.currentUser) {
+      alert('請先登入才能結帳！');
+      this.openLogin();
+      return;
+    }
+
+    const total = this.getCartTotal();
+    const itemCount = this.getCartItemsCount();
+
+    // 準備結帳請求
+    const checkoutItems: CheckoutItem[] = this.cartItems.map(cartItem => ({
+      productId: cartItem.product.id,
+      quantity: cartItem.quantity
+    }));
+
+    const checkoutRequest: CheckoutRequest = {
+      userId: this.currentUser.id,
+      items: checkoutItems
+    };
+
+    console.log('準備結帳:', checkoutRequest);
+
+    // 調用結帳 API
+    this.orderService.checkout(checkoutRequest).subscribe({
+      next: (order) => {
+        console.log('結帳成功:', order);
+        alert(`結帳成功！\n訂單編號：${order.id}\n商品數量：${order.itemCount}\n總金額：$${order.totalAmount}`);
+
+        // 清空購物車
+        this.cartService.clearCart().subscribe({
+          next: () => {
+            this.loadCartItems(); // 重新載入購物車（應該是空的）
+            this.isCartOpen = false;
+
+            // 如果是管理員，刷新用戶統計數據
+            if (this.isAdmin()) {
+              this.refreshUserDataSilently();
+            }
+          },
+          error: (error) => {
+            console.error('清空購物車失敗:', error);
+            // 即使清空購物車失敗，結帳已經成功了
+            this.loadCartItems();
+            this.isCartOpen = false;
+          }
+        });
+      },
+      error: (error) => {
+        console.error('結帳失敗:', error);
+        let errorMessage = '結帳失敗，請稍後重試';
+
+        if (error.error && typeof error.error === 'string') {
+          errorMessage = error.error;
+        } else if (error.message) {
+          errorMessage = error.message;
+        }
+
+        alert(errorMessage);
+      }
+    });
+  }
+
+  // 登入相關方法
+  openLogin(): void {
+    console.log('openLogin() 被調用');
+    this.isLoginOpen = true;
+  }
+
+  closeLogin(): void {
+    console.log('closeLogin() 被調用');
+    this.isLoginOpen = false;
+  }
+
+  onLoginSuccess(user: any): void {
+    this.currentUser = user;
+    this.isLoggedIn = true;
+    console.log('用戶登入成功:', user);
+
+    // 登入後，如果是管理員則靜默刷新用戶相關資料（不顯示 alert）
+    if (user && user.role === 'admin') {
+      this.refreshUserDataSilently();
+    }
+  }
+
+  // 註冊相關方法
+  openRegister(): void {
+    console.log('openRegister() 被調用');
+    this.isRegisterOpen = true;
+  }
+
+  closeRegister(): void {
+    console.log('closeRegister() 被調用');
+    this.isRegisterOpen = false;
+  }
+
+  onRegisterSuccess(user: any): void {
+    console.log('用戶註冊成功:', user);
+    // 註冊成功後自動登入
+    this.currentUser = user;
+    this.isLoggedIn = true;
+    alert(`歡迎 ${user.name}！註冊成功並已自動登入。`);
+  }
+
+  onSwitchToLogin(): void {
+    this.isRegisterOpen = false;
+    this.isLoginOpen = true;
+  }
+
+  onSwitchToRegister(): void {
+    this.isLoginOpen = false;
+    this.isRegisterOpen = true;
+  }
+
+  // 用戶管理相關方法
+  refreshUserData(): void {
+    console.log('刷新用戶數據...');
+    console.log('設定 isRefreshingUsers = true');
+
+    // 使用 setTimeout 確保 UI 更新在下一個事件循環中發生
+    this.isRefreshingUsers = true;
+    console.log('isRefreshingUsers 狀態:', this.isRefreshingUsers);
+
+    // 強制立即更新 DOM
+    setTimeout(() => {
+      this.cdr.detectChanges();
+      console.log('強制變更檢測完成');
+
+      console.log('開始執行 forkJoin...');
+      forkJoin({
+        stats: this.userService.getUserStats(),
+        users: this.userService.getAllUsers()
+      }).subscribe({
+        next: ({ stats, users }) => {
+          console.log('forkJoin next 回調執行');
+          console.log('舊的用戶統計:', this.userStats);
+          console.log('新的用戶統計:', stats);
+          console.log('舊的用戶列表長度:', this.userList.length);
+          console.log('新的用戶列表長度:', users.length);
+          console.log('新的用戶列表:', users);
+
+          this.userStats = stats;
+          this.userList = users;
+          console.log('數據已更新到組件屬性');
+          console.log('用戶統計與列表載入成功');
+          alert('數據已刷新！');
+        },
+        error: (error) => {
+          console.log('forkJoin error 回調執行');
+          console.error('刷新用戶數據失敗:', error);
+          alert('刷新用戶數據失敗，請稍後重試');
+        },
+        complete: () => {
+          console.log('forkJoin complete 回調執行，設定 isRefreshingUsers = false');
+          console.log('在 complete 回調中的最終數據狀態:');
+          console.log('- userStats:', this.userStats);
+          console.log('- userList 長度:', this.userList.length);
+
+          // 立即強制變更檢測，確保數據更新到 UI
+          this.cdr.detectChanges();
+
+          // 確保 loading 狀態至少顯示 1 秒，讓用戶能看到
+          setTimeout(() => {
+            this.isRefreshingUsers = false;
+            console.log('isRefreshingUsers 狀態已重置:', this.isRefreshingUsers);
+            this.cdr.detectChanges(); // 強制更新 UI
+          }, 1000);
+        }
+      });
+    }, 0);
+  }
+
+  // 靜默刷新用戶數據（不顯示 alert，用於登入後自動刷新）
+  refreshUserDataSilently(): void {
+    console.log('靜默刷新用戶數據...');
+    forkJoin({
+      stats: this.userService.getUserStats(),
+      users: this.userService.getAllUsers()
+    }).subscribe({
+      next: ({ stats, users }) => {
+        this.userStats = stats;
+        this.userList = users;
+        console.log('用戶統計與列表靜默載入成功');
+      },
+      error: (error) => {
+        console.error('靜默刷新用戶數據失敗:', error);
+      }
+    });
+  }
+
+  addNewUser(): void {
+    console.log('打開新增用戶對話框...');
+    this.showAddUserModal = true;
+    // 重置表單
+    this.newUser = {
+      name: '',
+      email: '',
+      password: '',
+      role: 'user',
+      status: 'active',
+      registeredDate: new Date()
+    };
+  }
+
+  closeAddUserModal(): void {
+    this.showAddUserModal = false;
+  }
+
+  onAddUserModalBackdrop(event: MouseEvent): void {
+    if ((event.target as HTMLElement).classList.contains('add-user-overlay')) {
+      this.closeAddUserModal();
+    }
+  }
+
+  submitNewUser(): void {
+    console.log('提交新用戶:', this.newUser);
+
+    // 驗證必填欄位
+    if (!this.newUser.name?.trim()) {
+      alert('請輸入用戶姓名！');
+      return;
+    }
+
+    if (!this.newUser.email?.trim()) {
+      alert('請輸入電子信箱！');
+      return;
+    }
+
+    if (!this.newUser.password?.trim()) {
+      alert('請輸入密碼！');
+      return;
+    }
+
+    // 調用 API 創建用戶
+    this.userService.createUser(this.newUser).subscribe({
+      next: (createdUser) => {
+        console.log('用戶創建成功:', createdUser);
+        // 重新載入用戶列表和統計數據
+        this.refreshUserData();
+        alert(`用戶 ${createdUser.name} 已成功創建！`);
+        this.closeAddUserModal();
+      },
+      error: (error) => {
+        console.error('創建用戶失敗:', error);
+        alert('創建用戶失敗，請檢查電子信箱是否已存在或稍後重試');
+      }
+    });
+  }
+
+  editUser(user: User): void {
+    console.log('編輯用戶:', user);
+    const newName = prompt(`編輯用戶姓名 (當前: ${user.name}):`);
+
+    if (newName && newName.trim()) {
+      const updatedUser = { ...user, name: newName.trim() };
+
+      this.userService.updateUser(user.id!, updatedUser).subscribe({
+        next: (result) => {
+          // 更新本地數據
+          const index = this.userList.findIndex(u => u.id === user.id);
+          if (index > -1) {
+            this.userList[index] = result;
+          }
+          alert(`用戶 ${result.name} 的資料已更新！`);
+        },
+        error: (error) => {
+          console.error('更新用戶失敗:', error);
+          alert('更新用戶失敗，請稍後重試');
+        }
+      });
+    }
+  }
+
+  deleteUser(user: User): void {
+    console.log('刪除用戶:', user);
+    const confirmDelete = confirm(`您確定要刪除用戶 ${user.name} 嗎？此操作無法復原。`);
+
+    if (confirmDelete) {
+      this.userService.deleteUser(user.id!).subscribe({
+        next: () => {
+          // 重新載入用戶列表和統計數據
+          this.refreshUserData();
+          alert(`用戶 ${user.name} 已被刪除！`);
+        },
+        error: (error) => {
+          console.error('刪除用戶失敗:', error);
+          alert('刪除用戶失敗，請稍後重試');
+        }
+      });
+    }
+  }
+
+  toggleUserStatus(user: User): void {
+    console.log('切換用戶狀態:', user);
+    const newStatus = user.status === 'active' ? 'inactive' : 'active';
+    const action = newStatus === 'active' ? '啟用' : '停用';
+
+    const confirmToggle = confirm(`您確定要${action}用戶 ${user.name} 嗎？`);
+
+    if (confirmToggle) {
+      this.userService.toggleUserStatus(user.id!).subscribe({
+        next: (updatedUser) => {
+          // 重新載入用戶列表和統計數據以確保同步
+          this.refreshUserData();
+          alert(`用戶 ${updatedUser.name} 已${action}！`);
+        },
+        error: (error) => {
+          console.error('切換用戶狀態失敗:', error);
+          alert('切換用戶狀態失敗，請稍後重試');
+        }
+      });
+    }
+  }
+
+  // 檢查當前用戶是否為管理員
+  isAdmin(): boolean {
+    return this.isLoggedIn && this.currentUser && this.currentUser.role === 'admin';
+  }
+
+  // 檢查當前用戶是否為普通用戶
+  isUser(): boolean {
+    return this.isLoggedIn && this.currentUser && this.currentUser.role === 'user';
+  }
+
+  // 登出功能
+  logout(): void {
+    this.currentUser = null;
+    this.isLoggedIn = false;
+    console.log('用戶已登出');
+    alert('已成功登出！');
+  }
+
+  // ===== 用戶訂單狀態相關方法 =====
+
+  // 開啟用戶訂單狀態懸浮視窗
+  openUserOrderStatus() {
+    if (this.currentUser) {
+      this.showUserOrderModal = true;
+      this.loadUserOrders();
+    }
+  }
+
+  // 關閉用戶訂單狀態懸浮視窗
+  closeUserOrderModal() {
+    this.showUserOrderModal = false;
+    this.userOrders = [];
+    this.filteredUserOrders = [];
+    this.userOrderStatusFilter = '';
+  }
+
+  // 載入用戶訂單
+  loadUserOrders() {
+    if (!this.currentUser) return;
+
+    this.loadingUserOrders = true;
+    this.orderService.getUserOrders(this.currentUser.id).subscribe({
+      next: (orders) => {
+        this.userOrders = orders;
+        this.filteredUserOrders = [...orders];
+        this.loadingUserOrders = false;
+        console.log('用戶訂單載入成功，共', orders.length, '個訂單');
+      },
+      error: (error) => {
+        console.error('載入用戶訂單失敗:', error);
+        this.loadingUserOrders = false;
+      }
+    });
+  }
+
+  // 篩選用戶訂單
+  filterUserOrders() {
+    if (this.userOrderStatusFilter) {
+      this.filteredUserOrders = this.userOrders.filter(order =>
+        order.status === this.userOrderStatusFilter
+      );
+    } else {
+      this.filteredUserOrders = [...this.userOrders];
+    }
+  }
+
+  // 獲取總消費金額
+  getTotalSpent(): number {
+    return this.userOrders.reduce((total, order) => total + order.totalAmount, 0);
+  }
+
+  // 獲取待處理訂單數量
+  getPendingOrdersCount(): number {
+    return this.userOrders.filter(order =>
+      order.status === 'PENDING' || order.status === 'CONFIRMED' || order.status === 'SHIPPED'
+    ).length;
+  }
+
+  // 查看用戶訂單詳情
+  viewUserOrderDetail(order: Order) {
+    this.selectedUserOrder = order;
+    // 如果訂單沒有詳細項目，則獲取
+    if (!order.orderItems) {
+      this.orderService.getOrderById(order.id).subscribe({
+        next: (detailedOrder) => {
+          this.selectedUserOrder = detailedOrder;
+          this.showUserOrderDetailModal = true;
+        },
+        error: (error) => {
+          console.error('獲取訂單詳情失敗:', error);
+          this.showUserOrderDetailModal = true; // 仍然顯示已有的信息
+        }
+      });
+    } else {
+      this.showUserOrderDetailModal = true;
+    }
+  }
+
+  // 關閉用戶訂單詳情懸浮視窗
+  closeUserOrderDetailModal() {
+    this.showUserOrderDetailModal = false;
+    this.selectedUserOrder = null;
+  }
+
+  // 格式化日期
+  formatDate(date: Date): string {
+    return new Date(date).toLocaleString('zh-TW');
+  }
+
+  // 獲取狀態文字
+  getStatusText(status: string): string {
+    const statusMap: {[key: string]: string} = {
+      'PENDING': '待處理',
+      'CONFIRMED': '已確認',
+      'SHIPPED': '已出貨',
+      'DELIVERED': '已送達',
+      'CANCELLED': '已取消'
+    };
+    return statusMap[status] || status;
+  }
+
+  // 獲取狀態樣式類別
+  getStatusClass(status: string): string {
+    return `status-${status.toLowerCase()}`;
+  }
+
+  // 檢查步驟是否為當前狀態
+  isStepActive(currentStatus: string, stepStatus: string): boolean {
+    return currentStatus === stepStatus;
+  }
+
+  // 檢查步驟是否已完成
+  isStepCompleted(currentStatus: string, stepStatus: string): boolean {
+    const statusOrder = ['PENDING', 'CONFIRMED', 'SHIPPED', 'DELIVERED'];
+    const currentIndex = statusOrder.indexOf(currentStatus);
+    const stepIndex = statusOrder.indexOf(stepStatus);
+    return currentIndex > stepIndex;
+  }
+}

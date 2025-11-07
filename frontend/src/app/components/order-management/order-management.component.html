@@ -1,0 +1,189 @@
+<div class="order-management-container">
+  <div class="header">
+    <h2>訂單管理</h2>
+    <div class="stats-overview">
+      <div class="stat-card">
+        <h3>總訂單數</h3>
+        <p class="stat-number">{{ totalOrders }}</p>
+      </div>
+      <div class="stat-card">
+        <h3>今日訂單</h3>
+        <p class="stat-number">{{ todayOrders }}</p>
+      </div>
+      <div class="stat-card">
+        <h3>總收入</h3>
+        <p class="stat-number">NT$ {{ totalRevenue.toLocaleString() }}</p>
+      </div>
+      <div class="stat-card">
+        <h3>待處理訂單</h3>
+        <p class="stat-number">{{ pendingOrders }}</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="filters">
+    <div class="filter-group">
+      <label for="statusFilter">狀態篩選：</label>
+      <select id="statusFilter" [(ngModel)]="selectedStatus" (change)="filterOrders()">
+        <option value="">全部狀態</option>
+        <option value="PENDING">待處理</option>
+        <option value="CONFIRMED">已確認</option>
+        <option value="SHIPPED">已出貨</option>
+        <option value="DELIVERED">已送達</option>
+        <option value="CANCELLED">已取消</option>
+      </select>
+    </div>
+
+    <div class="filter-group">
+      <label for="dateFilter">日期篩選：</label>
+      <select id="dateFilter" [(ngModel)]="selectedDateFilter" (change)="filterOrders()">
+        <option value="">全部時間</option>
+        <option value="today">今天</option>
+        <option value="week">本週</option>
+        <option value="month">本月</option>
+      </select>
+    </div>
+
+    <div class="search-group">
+      <label for="searchInput">搜尋訂單：</label>
+      <input type="text" id="searchInput" [(ngModel)]="searchTerm" (input)="filterOrders()"
+             placeholder="輸入訂單編號或用戶名稱">
+    </div>
+
+    <button class="refresh-btn" (click)="loadOrders()" [disabled]="loading">
+      {{ loading ? '載入中...' : '重新整理' }}
+    </button>
+  </div>
+
+  <div class="orders-table-container" *ngIf="!loading">
+    <table class="orders-table">
+      <thead>
+        <tr>
+          <th>訂單編號</th>
+          <th>用戶</th>
+          <th>訂單日期</th>
+          <th>商品數量</th>
+          <th>總金額</th>
+          <th>狀態</th>
+          <th>操作</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let order of filteredOrders" class="order-row">
+          <td class="order-id">#{{ order.id }}</td>
+          <td class="user-name">{{ order.userName }}</td>
+          <td class="order-date">{{ formatDate(order.orderDate) }}</td>
+          <td class="item-count">{{ order.itemCount }} 件</td>
+          <td class="amount">NT$ {{ order.totalAmount.toLocaleString() }}</td>
+          <td>
+            <span class="status-badge" [ngClass]="getStatusClass(order.status)">
+              {{ getStatusText(order.status) }}
+            </span>
+          </td>
+          <td class="actions">
+            <button class="btn-detail" (click)="viewOrderDetail(order)">詳情</button>
+            <button class="btn-edit" (click)="updateOrderStatus(order)" *ngIf="order.status !== 'DELIVERED' && order.status !== 'CANCELLED'">
+              更新狀態
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="no-orders" *ngIf="filteredOrders.length === 0">
+      <p>沒有找到符合條件的訂單</p>
+    </div>
+  </div>
+
+  <div class="loading-spinner" *ngIf="loading">
+    <p>載入訂單資料中...</p>
+  </div>
+</div>
+
+<!-- 訂單詳情彈窗 -->
+<div class="modal-overlay" *ngIf="showOrderDetail" (click)="closeOrderDetail()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h3>訂單詳情 #{{ selectedOrder?.id }}</h3>
+      <button class="close-btn" (click)="closeOrderDetail()">&times;</button>
+    </div>
+
+    <div class="modal-body" *ngIf="selectedOrder">
+      <div class="order-info">
+        <div class="info-row">
+          <span class="label">用戶：</span>
+          <span>{{ selectedOrder.userName }}</span>
+        </div>
+        <div class="info-row">
+          <span class="label">訂單日期：</span>
+          <span>{{ formatDate(selectedOrder.orderDate) }}</span>
+        </div>
+        <div class="info-row">
+          <span class="label">狀態：</span>
+          <span class="status-badge" [ngClass]="getStatusClass(selectedOrder.status)">
+            {{ getStatusText(selectedOrder.status) }}
+          </span>
+        </div>
+        <div class="info-row">
+          <span class="label">總金額：</span>
+          <span class="amount">NT$ {{ selectedOrder.totalAmount.toLocaleString() }}</span>
+        </div>
+      </div>
+
+      <div class="order-items" *ngIf="selectedOrder.orderItems">
+        <h4>訂單項目</h4>
+        <table class="items-table">
+          <thead>
+            <tr>
+              <th>商品名稱</th>
+              <th>單價</th>
+              <th>數量</th>
+              <th>小計</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of selectedOrder.orderItems">
+              <td>{{ item.productName }}</td>
+              <td>NT$ {{ item.price.toLocaleString() }}</td>
+              <td>{{ item.quantity }}</td>
+              <td>NT$ {{ item.totalPrice.toLocaleString() }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 更新狀態彈窗 -->
+<div class="modal-overlay" *ngIf="showStatusUpdate" (click)="closeStatusUpdate()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h3>更新訂單狀態</h3>
+      <button class="close-btn" (click)="closeStatusUpdate()">&times;</button>
+    </div>
+
+    <div class="modal-body" *ngIf="selectedOrder">
+      <div class="status-form">
+        <p>訂單編號：#{{ selectedOrder.id }}</p>
+        <p>目前狀態：{{ getStatusText(selectedOrder.status) }}</p>
+
+        <div class="form-group">
+          <label for="newStatus">新狀態：</label>
+          <select id="newStatus" [(ngModel)]="newStatus">
+            <option value="PENDING">待處理</option>
+            <option value="CONFIRMED">已確認</option>
+            <option value="SHIPPED">已出貨</option>
+            <option value="DELIVERED">已送達</option>
+            <option value="CANCELLED">已取消</option>
+          </select>
+        </div>
+
+        <div class="form-actions">
+          <button class="btn-cancel" (click)="closeStatusUpdate()">取消</button>
+          <button class="btn-confirm" (click)="confirmStatusUpdate()">確認更新</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

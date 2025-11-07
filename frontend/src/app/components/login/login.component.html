@@ -1,0 +1,59 @@
+<div class="login-overlay" (click)="onBackdropClick($event)">
+  <div class="login-container">
+    <div class="login-header">
+      <h2>登入 Stellara</h2>
+      <button class="close-btn" (click)="onClose()" type="button">&times;</button>
+    </div>
+
+    <form (ngSubmit)="onSubmit()" class="login-form">
+      <div class="form-group">
+        <label for="email">電子信箱</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          [(ngModel)]="loginData.email"
+          placeholder="輸入您的電子信箱"
+          required
+          [disabled]="isLoading">
+      </div>
+
+      <div class="form-group">
+        <label for="password">密碼</label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          [(ngModel)]="loginData.password"
+          placeholder="輸入您的密碼"
+          required
+          [disabled]="isLoading">
+      </div>
+
+      <div class="error-message" *ngIf="errorMessage">
+        {{ errorMessage }}
+      </div>
+
+      <button
+        type="submit"
+        class="login-btn"
+        [disabled]="isLoading">
+        <span *ngIf="!isLoading">登入</span>
+        <span *ngIf="isLoading" class="loading-spinner">登入中...</span>
+      </button>
+    </form>
+
+    <div class="login-footer">
+      <div class="register-section">
+        <p>還沒有帳戶？ <a (click)="onSwitchToRegister()" class="register-link">立即註冊</a></p>
+      </div>
+
+      <div class="test-accounts">
+        <p><strong>測試帳號：</strong></p>
+        <p>管理員：admin&#64;stellaris.com / admin123</p>
+        <p>一般用戶：user&#64;stellaris.com / user123</p>
+        <p>測試用戶：test&#64;stellaris.com / test123</p>
+      </div>
+    </div>
+  </div>
+</div>
